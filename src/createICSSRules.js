@@ -1,6 +1,11 @@
 import postcss from "postcss";
 
 const createImports = imports => {
+  /**
+   * 第一层的key用来做:import() 括号里的值
+   * 然后value使用postcss.decl创建一个新node
+   * 插入到第一层key
+   */
   return Object.keys(imports).map(path => {
     const aliases = imports[path];
     const declarations = Object.keys(aliases).map(key =>
@@ -19,6 +24,7 @@ const createImports = imports => {
   });
 };
 
+// 遍历exports，使用postcss.decl创建节点，挂载到:export下
 const createExports = exports => {
   const declarations = Object.keys(exports).map(key =>
     postcss.decl({
